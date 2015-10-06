@@ -42,12 +42,11 @@ module RailsAdmin
                 @auditing_adapter && @auditing_adapter.
                   create_object(@object, @abstract_model, _current_user)
                 if @object.class==Course
-                  @object.create_course_leader _current_user
-                  @object.create_course_supervisor _current_user
+                  @object.create_course_owner _current_user
                 end
                 respond_to do |format|
                   format.html {redirect_to_on_success}
-                  format.js {render json: {id: @object.id.to_s, 
+                  format.js {render json: {id: @object.id.to_s,
                     label: @model_config.with(object: @object).object_label}}
                 end
               else

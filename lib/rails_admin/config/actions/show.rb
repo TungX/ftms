@@ -20,7 +20,7 @@ module RailsAdmin
           proc do
             case object.class.name
             when "User"
-              @object = "user"
+              @object_name = "user"
               @user = object
               if @user_course = @user.user_courses.actived.last
                 @user_subjects = @user_course.user_subjects
@@ -34,16 +34,16 @@ module RailsAdmin
                 end
               end
             when "Course"
-              @object = "course"
+              @object_name = "course"
               @course = object
               @members = object.users
               @course_subjects = @course.course_subjects
               @total_tasks = @course.course_subjects.map(&:tasks).flatten.count
             when "Subject"
-              @object = "subject"
+              @object_name = "subject"
               @task_masters = object.task_masters
             else
-              @object = "default"
+              @object_name = "default"
               respond_to do |format|
                 format.json { render json: @object }
                 format.html { render @action.template_name }

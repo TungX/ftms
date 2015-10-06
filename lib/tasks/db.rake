@@ -8,9 +8,5 @@ namespace :db do
     15.times do
       Fabricate :user
     end
-    puts "Creating Subject"
-    10.times do |n|
-      Fabricate :subject, name: "SJ0000#{n}"
-    end
   end
 end

@@ -40,7 +40,7 @@ module RailsAdmin
               course_params = params.require(:course).permit subject_ids: []
               if object.update_attributes course_params
                 flash[:success] = t "admin.actions.updated"
-                redirect_to show_course_path(Course, object)
+                redirect_to show_path "course", object
               else
                 render "add_trainee_to_course"
                 flash[:danger] = t "admin.actions.not_updated"
