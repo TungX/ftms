@@ -43,7 +43,6 @@ module RailsAdmin
                 redirect_to show_path "course", object
               else
                 render "add_trainee_to_course"
-                flash[:danger] = t "admin.actions.not_updated"
               end
             end
           end
