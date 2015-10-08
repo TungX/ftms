@@ -1,0 +1,37 @@
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th><%= t "admin.member.name" %></th>
+      <th><%= t "admin.member.email" %></th>
+      <th class="last shrink"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= form_for @object, url: add_trainee_to_course_path, method: :post do |f| %>
+      <%= hidden_field_tag "course[user_ids][]", nil %>
+      <% @trainees.each do |trainee| %>
+        <tr>
+          <td class="string_type">
+            <%= link_to trainee.name, show_path("user", trainee.id) %>
+          </td>
+          <td class="string_type">
+            <%= trainee.email %>
+          </td>
+          <td class="last links">
+            <ul class="inline list-inline">
+              <li>
+                <%= f.check_box :user_ids, {name: "course[user_ids][]"}, trainee.id, nil %>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="3">
+          <%= f.submit t("admin.actions.add_trainee_to_course.btn"),
+            class: "btn btn-primary pull-right" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

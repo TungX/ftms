@@ -12,4 +12,10 @@ class Subject < ActiveRecord::Base
 
   accepts_nested_attributes_for :task_masters, allow_destroy: true,
     reject_if: proc {|attributes| attributes["name"].blank?}
+
+  scope :subject_all, ->(course_id){}
+  scope :subject_in, ->(course_id){joins(:course_subjects).where(course_subjects:
+    {course_id: course_id})}
+  scope :subject_out, ->(course_id){where "id NOT IN (SELECT subject_id
+    FROM course_subjects WHERE course_id <> #{course_id})"}
 end

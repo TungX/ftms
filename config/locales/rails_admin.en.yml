@@ -1,5 +1,10 @@
 en:
   admin:
+    filter: "Filter"
+    options:
+      all: "All"
+      in: "In"
+      out: "Out"
     js:
       true: True
       false: False

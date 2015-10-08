@@ -25,9 +25,6 @@ module RailsAdmin
 
         register_instance_option :controller do
           proc do
-            @supervisor = User.supervisor
-            @subjects = Subject.subject_not_start_course object
-            @trainees = (User.free_trainees << object.users).flatten!.sort
             if request.post?
               course_params = params.require(:course).permit :name, :description
               if object.update_attributes course_params
@@ -36,6 +33,32 @@ module RailsAdmin
               else
                 render "edit_course"
                 flash[:danger] = t "admin.actions.not_updated"
+              end
+            elsif request.get?
+              @supervisor = User.supervisor
+              @subjects = Subject.subject_not_start_course object
+              @trainees = (User.free_trainees << object.users).flatten!.sort
+              case params[:object]
+              when "subject"
+                @subjects = Subject.send "subject_#{params[:option]}", object.id
+                respond_to do |format|
+                  format.html
+                  format.js{render "rails_admin/main/order_subject"}
+                end
+              when "trainee"
+                case params[:option]
+                when "in"
+                  @trainees = object.users
+                when "out"
+                  @trainees = User.free_trainees
+                else
+                  @trainees = (User.free_trainees << object.users).flatten!.sort
+                end
+                respond_to do |format|
+                  format.html
+                  format.js{render "rails_admin/main/order_trainee"}
+                end
+              else
               end
             end
           end

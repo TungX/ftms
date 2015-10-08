@@ -1,4 +1,8 @@
 defaults: &defaults
+  options:
+    - all
+    - in
+    - out
   update_supervisor_params:
     - supervisor
     - leader

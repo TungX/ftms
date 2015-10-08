@@ -1,39 +1,15 @@
-<table class="table table-condensed table-striped">
-  <thead>
-    <tr>
-      <th><%= t "admin.subject.name" %></th>
-      <th><%= t "admin.subject.description" %></th>
-      <th class="last shrink"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= form_for @object, url: add_subjects_to_course_path, method: :post do
-      |f| %>
-      <%= hidden_field_tag "course[subject_ids][]", nil %>
-      <% @subjects.each do |subject| %>
-        <tr>
-          <td class="string_type">
-            <%= link_to subject.name, show_path("subject", subject) %>
-          </td>
-          <td class="string_type">
-            <%= subject.description %>
-          </td>
-          <td class="last links">
-            <ul class="inline list-inline">
-              <li>
-                <%= f.check_box :subject_ids, {name: "course[subject_ids][]"},
-                  subject.id, nil %>
-              </li>
-            </ul>
-          </td>
-        </tr>
-      <% end %>
-      <tr>
-        <td colspan="3">
-          <%= f.submit t("admin.actions.add_subjects_to_course.btn_save"),
-            class: "btn btn-primary pull-right" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= form_tag("#{edit_course_path('course', @object)}", method: :get,
+  remote: true ) do %>
+  <%= hidden_field_tag("object", value = "subject") %>
+  <% Settings.options.each do |option| %>
+    <label id="inline">
+      <%= radio_button_tag :option, option, params[:option] == option &&
+        params[:object] == "subject" || option == "all" %>
+      <%= t "admin.options.#{option}" %>
+    </label>
+  <% end %>
+  <%= submit_tag t("admin.filter"), class: "btn btn-primary btn-sm" %>
+<% end %>
+<div id="_subjects">
+  <%= render "subjects_in_course" %>
+</div>

@@ -1,5 +1,10 @@
 ja:
   admin:
+    filter: "フィルター"
+    options:
+      all: "オール"
+      in: "における"
+      out: "外に"
     js:
       true: 真
       false: 偽
